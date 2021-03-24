@@ -1,7 +1,7 @@
-import { ModelFactory } from '@models';
-import { RepositoryContext } from './repository-context';
-import { QueryOptions, DeleteResult } from '@storage';
-import { LooseObject } from '@typings';
+import { ModelFactory } from "@models";
+import { RepositoryContext } from "./repository-context";
+import { QueryOptions, DeleteResult } from "@storage";
+import { LooseObject } from "@typings";
 
 export class BaseRepository<T> {
   constructor(protected context: RepositoryContext) {}
@@ -26,7 +26,7 @@ export class BaseRepository<T> {
     return this.context.store.update<T>(
       filter,
       dataToUpdate,
-      this.modelFactory(),
+      this.modelFactory()
     );
   }
 
@@ -47,6 +47,6 @@ export class BaseRepository<T> {
   }
 
   protected modelFactory(): ModelFactory<T> {
-    throw new Error('Not Implemented');
+    throw new Error("Not Implemented");
   }
 }
