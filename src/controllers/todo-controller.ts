@@ -27,8 +27,11 @@ export class TodoController extends BaseController {
       createTodoValidator(),
       this.createTodo
     );
+<<<<<<< Updated upstream
 
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
+=======
+>>>>>>> Stashed changes
   }
 
   private createTodo = async (
@@ -49,6 +52,7 @@ export class TodoController extends BaseController {
 
     const { title } = req.body;
     const todo = await this.appContext.todoRepository.save(
+<<<<<<< Updated upstream
       new TodoItem({ title })
     );
     res.status(201).json(todo.serialize());
@@ -75,4 +79,12 @@ export class TodoController extends BaseController {
       return next(valError);
     }
   };
+=======
+      new TodoItem({
+        title,
+      })
+    );
+    res.status(201).json(todo.serialize());
+  };
+>>>>>>> Stashed changes
 }

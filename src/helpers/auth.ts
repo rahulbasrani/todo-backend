@@ -1,6 +1,12 @@
+<<<<<<< Updated upstream
 import bcryptjs from "bcryptjs";
 import config from "config";
 import jsonwebtoken from "jsonwebtoken";
+=======
+import bcryptjs from 'bcryptjs';
+import config from 'config';
+import jsonwebtoken from 'jsonwebtoken';
+>>>>>>> Stashed changes
 
 import { JwtPayload } from "@typings";
 

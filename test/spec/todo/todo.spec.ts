@@ -1,6 +1,8 @@
+
 require("module-alias/register");
 
 import chai from "chai";
+
 
 import spies from "chai-spies";
 chai.use(spies);
@@ -81,6 +83,6 @@ describe("DELETE /todos/:id", () => {
     expect(res2).to.have.status(404);
 
     const res3 = await chai.request(expressApp).delete(`/todos/""`);
-    expect(res2).to.have.status(500);
+    expect(res3).to.have.status(500);
   });
 });
