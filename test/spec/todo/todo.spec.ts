@@ -1,7 +1,5 @@
 require("module-alias/register");
-
 import chai from "chai";
-
 import spies from "chai-spies";
 chai.use(spies);
 import chaiHttp from "chai-http";
@@ -35,7 +33,7 @@ describe("POST /todos", () => {
     expect(res.body).to.have.property("title");
   });
 
-  it("should return a validation error if title is empty string", async () => {
+  it("should return a validation error if title filled is empty string", async () => {
     const res = await chai.request(expressApp).post("/todos").send({
       title: "",
     });
@@ -45,7 +43,7 @@ describe("POST /todos", () => {
       .to.equal("Please provide a title");
   });
 
-  it("should return a validation error if title is not a string", async () => {
+  it("should return a validation error if title filled is not a string", async () => {
     const res = await chai
       .request(expressApp)
       .post("/todos")
@@ -79,8 +77,7 @@ describe("DELETE /todos/:id", () => {
 
     const res2 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
     expect(res2).to.have.status(404);
-
-    const res3 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    const res3 = await chai.request(expressApp).delete(`/todos/""`);
     expect(res3).to.have.status(500);
   });
 });
