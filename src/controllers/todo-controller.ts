@@ -29,8 +29,6 @@ export class TodoController extends BaseController {
     );
 
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
-<<<<<<< Updated upstream
-=======
 
     this.router.put(
       `${this.basePath}/:id`,
@@ -39,7 +37,6 @@ export class TodoController extends BaseController {
     );
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
     this.router.get(`${this.basePath}/:id`, this.fetchTodo);
->>>>>>> Stashed changes
   }
 
   private createTodo = async (
@@ -86,8 +83,6 @@ export class TodoController extends BaseController {
       return next(valError);
     }
   };
-<<<<<<< Updated upstream
-=======
 
   private updateTodo = async (
     req: ExtendedRequest,
@@ -140,5 +135,4 @@ export class TodoController extends BaseController {
       return next(valError);
     }
   };
->>>>>>> Stashed changes
 }
