@@ -79,5 +79,8 @@ describe("DELETE /todos/:id", () => {
 
     const res2 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
     expect(res2).to.have.status(404);
+
+    const res3 = await chai.request(expressApp).delete(`/todos/""`);
+    expect(res2).to.have.status(500);
   });
 });
