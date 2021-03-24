@@ -26,12 +26,12 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "module-alias": "^2.2.2",
-    "mongoose": "^5.12.2",
+    "mongoose": "5.8.11",
     "typescript": "^3.7.5",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
+    "@types/bcrypt": "^3.0.0",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.2.11",
     "@types/chai-http": "^4.2.0",

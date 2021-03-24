@@ -1,19 +1,19 @@
-import lodash from "lodash";
+import lodash from 'lodash';
 
-import { BaseController } from "./base-controller";
-import { NextFunction, Response, Router } from "express";
-import { Validation } from "@helpers";
-import { TodoItem } from "@models";
+import { BaseController } from './base-controller';
+import { NextFunction, Response, Router } from 'express';
+import { Validation } from '@helpers';
+import { TodoItem } from '@models';
 import {
   AppContext,
   Errors,
   ExtendedRequest,
   ValidationFailure,
-} from "@typings";
-import { createTodoValidator } from "@validators";
+} from '@typings';
+import { createTodoValidator } from '@validators';
 
 export class TodoController extends BaseController {
-  public basePath: string = "/todos";
+  public basePath: string = '/todos';
   public router: Router = Router();
 
   constructor(ctx: AppContext) {
@@ -27,6 +27,17 @@ export class TodoController extends BaseController {
       createTodoValidator(),
       this.createTodo
     );
+<<<<<<< Updated upstream
+=======
+
+    this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
+
+    this.router.put(
+      `${this.basePath}/:id`,
+      createTodoValidator(),
+      this.updateTodo
+    );
+>>>>>>> Stashed changes
   }
 
   private createTodo = async (
@@ -39,7 +50,7 @@ export class TodoController extends BaseController {
     );
     if (failures.length > 0) {
       const valError = new Errors.ValidationError(
-        res.__("DEFAULT_ERRORS.VALIDATION_FAILED"),
+        res.__('DEFAULT_ERRORS.VALIDATION_FAILED'),
         failures
       );
       return next(valError);
@@ -53,4 +64,60 @@ export class TodoController extends BaseController {
     );
     res.status(201).json(todo.serialize());
   };
+<<<<<<< Updated upstream
+=======
+
+  private deleteTodo = async (
+    req: ExtendedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+
+    const todo = await this.appContext.todoRepository.update(
+      { _id: id, isActive: true },
+      { $set: { isActive: false } }
+    );
+
+    if (todo?._id) {
+      res.status(204).json(todo.serialize());
+    } else {
+      const valError = new Errors.NotFoundError(
+        res.__('DEFAULT_ERRORS.RESOURCE_NOT_FOUND')
+      );
+      return next(valError);
+    }
+  };
+
+  private updateTodo = async (
+    req: ExtendedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const failures: ValidationFailure[] = Validation.extractValidationErrors(
+      req
+    );
+    if (failures.length > 0) {
+      const valError = new Errors.ValidationError(
+        res.__('DEFAULT_ERRORS.VALIDATION_FAILED'),
+        failures
+      );
+      return next(valError);
+    }
+
+    const { title } = req.body;
+    const { id } = req.params;
+
+    const todo = await this.appContext.todoRepository.update(
+      { _id: id },
+      { title }
+    );
+
+    if (todo?._id) {
+      res.status(200).json(todo.serialize());
+    } else {
+      res.status(404).send();
+    }
+  };
+>>>>>>> Stashed changes
 }

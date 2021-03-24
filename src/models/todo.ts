@@ -1,5 +1,5 @@
-import { BaseModel } from "./base-model";
-import { LooseObject } from "@typings";
+import { BaseModel } from './base-model';
+import { LooseObject } from '@typings';
 
 export class TodoItem extends BaseModel {
   title: string;
