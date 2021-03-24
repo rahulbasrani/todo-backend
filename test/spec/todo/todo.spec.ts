@@ -1,8 +1,7 @@
-// tslint:disable-next-line: no-var-requires
 require("module-alias/register");
 
 import chai from "chai";
-// tslint:disable-next-line: import-name
+
 import spies from "chai-spies";
 chai.use(spies);
 import chaiHttp from "chai-http";
@@ -10,6 +9,7 @@ import { Application } from "express";
 import { respositoryContext, testAppContext } from "../../mocks/app-context";
 
 import { App } from "@server";
+import { TodoItem } from "@models";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -25,9 +25,9 @@ before(async () => {
 });
 
 describe("POST /todos", () => {
-  it("should create a new todo", async () => {
+  it("should create a new todo when non empty title is passed", async () => {
     const res = await chai.request(expressApp).post("/todos").send({
-      title: "Title New Todo",
+      title: "Testing title new todo",
     });
 
     expect(res).to.have.status(201);
@@ -35,7 +35,7 @@ describe("POST /todos", () => {
     expect(res.body).to.have.property("title");
   });
 
-  it("should return a validation error if title is empty", async () => {
+  it("should return a validation error if title is empty string", async () => {
     const res = await chai.request(expressApp).post("/todos").send({
       title: "",
     });
@@ -56,6 +56,28 @@ describe("POST /todos", () => {
     expect(res).to.have.status(400);
     expect(res.body)
       .to.have.nested.property("failures[0].message")
-      .to.equal("Please specify the valid title name");
+      .to.equal("Please specify the valid title");
+  });
+});
+
+describe("DELETE /todos/:id", () => {
+  it("should return a validation error if id is not Mongo id", async () => {
+    const res = await chai.request(expressApp).delete("/todos/1");
+
+    expect(res).to.have.status(400);
+    expect(res.body)
+      .to.have.nested.property("failures[0].message")
+      .to.equal("Please specify valid todo id");
+  });
+
+  it("should return 204 if todo exists else 404", async () => {
+    let todo = await testAppContext.todoRepository.save(
+      new TodoItem({ title: "TODO_TEMPORARY" })
+    );
+    const res1 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    expect(res1).to.have.status(204);
+
+    const res2 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
+    expect(res2).to.have.status(404);
   });
 });

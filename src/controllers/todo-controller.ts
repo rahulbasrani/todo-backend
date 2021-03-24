@@ -27,6 +27,8 @@ export class TodoController extends BaseController {
       createTodoValidator(),
       this.createTodo
     );
+
+    this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
   }
 
   private createTodo = async (
@@ -47,10 +49,30 @@ export class TodoController extends BaseController {
 
     const { title } = req.body;
     const todo = await this.appContext.todoRepository.save(
-      new TodoItem({
-        title,
-      })
+      new TodoItem({ title })
     );
     res.status(201).json(todo.serialize());
+  };
+
+  private deleteTodo = async (
+    req: ExtendedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+
+    const todo = await this.appContext.todoRepository.update(
+      { _id: id, isActive: true },
+      { $set: { isActive: false } }
+    );
+
+    if (todo?._id) {
+      res.status(204).json(todo.serialize());
+    } else {
+      const valError = new Errors.NotFoundError(
+        res.__("DEFAULT_ERRORS.RESOURCE_NOT_FOUND")
+      );
+      return next(valError);
+    }
   };
 }
