@@ -35,7 +35,7 @@ describe("POST /todos", () => {
     expect(res.body).to.have.property("title");
   });
 
-  it("should return a validation error if title is empty string", async () => {
+  it("should return a validation error if title filled is empty string", async () => {
     const res = await chai.request(expressApp).post("/todos").send({
       title: "",
     });
@@ -45,7 +45,7 @@ describe("POST /todos", () => {
       .to.equal("Please provide a title");
   });
 
-  it("should return a validation error if title is not a string", async () => {
+  it("should return a validation error if title filled is not a string", async () => {
     const res = await chai
       .request(expressApp)
       .post("/todos")
