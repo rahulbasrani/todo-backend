@@ -1,19 +1,19 @@
-import lodash from 'lodash';
+import lodash from "lodash";
 
-import { BaseController } from './base-controller';
-import { NextFunction, Response, Router } from 'express';
-import { Validation } from '@helpers';
-import { TodoItem } from '@models';
+import { BaseController } from "./base-controller";
+import { NextFunction, Response, Router } from "express";
+import { Validation } from "@helpers";
+import { TodoItem } from "@models";
 import {
   AppContext,
   Errors,
   ExtendedRequest,
   ValidationFailure,
-} from '@typings';
-import { createTodoValidator } from '@validators';
+} from "@typings";
+import { createTodoValidator } from "@validators";
 
 export class TodoController extends BaseController {
-  public basePath: string = '/todos';
+  public basePath: string = "/todos";
   public router: Router = Router();
 
   constructor(ctx: AppContext) {
@@ -27,8 +27,6 @@ export class TodoController extends BaseController {
       createTodoValidator(),
       this.createTodo
     );
-<<<<<<< Updated upstream
-=======
 
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
 
@@ -37,7 +35,7 @@ export class TodoController extends BaseController {
       createTodoValidator(),
       this.updateTodo
     );
->>>>>>> Stashed changes
+    this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
   }
 
   private createTodo = async (
@@ -50,22 +48,17 @@ export class TodoController extends BaseController {
     );
     if (failures.length > 0) {
       const valError = new Errors.ValidationError(
-        res.__('DEFAULT_ERRORS.VALIDATION_FAILED'),
+        res.__("DEFAULT_ERRORS.VALIDATION_FAILED"),
         failures
       );
       return next(valError);
     }
-
     const { title } = req.body;
     const todo = await this.appContext.todoRepository.save(
-      new TodoItem({
-        title,
-      })
+      new TodoItem({ title })
     );
     res.status(201).json(todo.serialize());
   };
-<<<<<<< Updated upstream
-=======
 
   private deleteTodo = async (
     req: ExtendedRequest,
@@ -83,7 +76,7 @@ export class TodoController extends BaseController {
       res.status(204).json(todo.serialize());
     } else {
       const valError = new Errors.NotFoundError(
-        res.__('DEFAULT_ERRORS.RESOURCE_NOT_FOUND')
+        res.__("DEFAULT_ERRORS.RESOURCE_NOT_FOUND")
       );
       return next(valError);
     }
@@ -99,7 +92,7 @@ export class TodoController extends BaseController {
     );
     if (failures.length > 0) {
       const valError = new Errors.ValidationError(
-        res.__('DEFAULT_ERRORS.VALIDATION_FAILED'),
+        res.__("DEFAULT_ERRORS.VALIDATION_FAILED"),
         failures
       );
       return next(valError);
@@ -119,5 +112,4 @@ export class TodoController extends BaseController {
       res.status(404).send();
     }
   };
->>>>>>> Stashed changes
 }

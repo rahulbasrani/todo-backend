@@ -1,23 +1,15 @@
-<<<<<<< Updated upstream
 require("module-alias/register");
 
 import chai from "chai";
 
 import spies from "chai-spies";
-=======
-require('module-alias/register');
-
-import chai from 'chai';
-
-import spies from 'chai-spies';
->>>>>>> Stashed changes
 chai.use(spies);
-import chaiHttp from 'chai-http';
-import { Application } from 'express';
-import { respositoryContext, testAppContext } from '../../mocks/app-context';
+import chaiHttp from "chai-http";
+import { Application } from "express";
+import { respositoryContext, testAppContext } from "../../mocks/app-context";
 
-import { App } from '@server';
-import { TodoItem } from '@models';
+import { App } from "@server";
+import { TodoItem } from "@models";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -32,65 +24,55 @@ before(async () => {
   expressApp = app.expressApp;
 });
 
-describe('POST /todos', () => {
-  it('should create a new todo when non empty title is passed', async () => {
-    const res = await chai.request(expressApp).post('/todos').send({
-      title: 'Testing title new todo',
+describe("POST /todos", () => {
+  it("should create a new todo when non empty title is passed", async () => {
+    const res = await chai.request(expressApp).post("/todos").send({
+      title: "Testing title new todo",
     });
 
     expect(res).to.have.status(201);
-    expect(res.body).to.have.property('id');
-    expect(res.body).to.have.property('title');
+    expect(res.body).to.have.property("id");
+    expect(res.body).to.have.property("title");
   });
 
-<<<<<<< Updated upstream
   it("should return a validation error if title is empty string", async () => {
     const res = await chai.request(expressApp).post("/todos").send({
       title: "",
-=======
-  it('should return a validation error if title is empty string', async () => {
-    const res = await chai.request(expressApp).post('/todos').send({
-      title: '',
->>>>>>> Stashed changes
     });
     expect(res).to.have.status(400);
     expect(res.body)
-      .to.have.nested.property('failures[0].message')
-      .to.equal('Please provide a title');
+      .to.have.nested.property("failures[0].message")
+      .to.equal("Please provide a title");
   });
 
-<<<<<<< Updated upstream
   it("should return a validation error if title is not a string", async () => {
-=======
-  it('should return a validation error if title is not a string', async () => {
->>>>>>> Stashed changes
     const res = await chai
       .request(expressApp)
-      .post('/todos')
+      .post("/todos")
       .send({
-        title: { key: 'value' },
+        title: { key: "value" },
       });
 
     expect(res).to.have.status(400);
     expect(res.body)
-      .to.have.nested.property('failures[0].message')
-      .to.equal('Please specify the valid title');
+      .to.have.nested.property("failures[0].message")
+      .to.equal("Please specify the valid title");
   });
 });
 
-describe('DELETE /todos/:id', () => {
-  it('should return a validation error if id is not Mongo id', async () => {
-    const res = await chai.request(expressApp).delete('/todos/1');
+describe("DELETE /todos/:id", () => {
+  it("should return a validation error if id is not Mongo id", async () => {
+    const res = await chai.request(expressApp).delete("/todos/1");
 
     expect(res).to.have.status(400);
     expect(res.body)
-      .to.have.nested.property('failures[0].message')
-      .to.equal('Please specify valid todo id');
+      .to.have.nested.property("failures[0].message")
+      .to.equal("Please specify valid todo id");
   });
 
-  it('should return 204 if todo exists else 404', async () => {
+  it("should return 204 if todo exists else 404", async () => {
     let todo = await testAppContext.todoRepository.save(
-      new TodoItem({ title: 'TODO_TEMPORARY' })
+      new TodoItem({ title: "TODO_TEMPORARY" })
     );
     const res1 = await chai.request(expressApp).delete(`/todos/${todo._id}`);
     expect(res1).to.have.status(204);
@@ -103,17 +85,17 @@ describe('DELETE /todos/:id', () => {
   });
 });
 
-describe('PUT /todos/:id', () => {
-  it('should return 200 if todo exists and title is validately true and 400 if title is empty or not a string else 404', async () => {
+describe("PUT /todos/:id", () => {
+  it("should return 200 if todo exists and title is validately true and 400 if title is empty or not a string else 404", async () => {
     let todo = await testAppContext.todoRepository.save(
-      new TodoItem({ title: 'TODO_TO_BE_UPDATED' })
+      new TodoItem({ title: "TODO_TO_BE_UPDATED" })
     );
     if (todo._id) {
       const res1 = await chai
         .request(expressApp)
         .put(`/todos/${todo._id}`)
         .send({
-          title: 'TODO',
+          title: "TODO",
         });
       expect(res1).to.have.status(200);
 
@@ -121,29 +103,29 @@ describe('PUT /todos/:id', () => {
         .request(expressApp)
         .put(`/todos/${todo._id}`)
         .send({
-          title: '',
+          title: "",
         });
       expect(res2).to.have.status(400);
       expect(res2.body)
-        .to.have.nested.property('failures[0].message')
-        .to.equal('Please specify the valid title');
+        .to.have.nested.property("failures[0].message")
+        .to.equal("Please specify the valid title");
 
       const res3 = await chai
         .request(expressApp)
         .put(`/todos/${todo._id}`)
         .send({
-          title: { key: 'value' },
+          title: { key: "value" },
         });
       expect(res3).to.have.status(400);
       expect(res3.body)
-        .to.have.nested.property('failures[0].message')
-        .to.equal('Please specify the valid title');
+        .to.have.nested.property("failures[0].message")
+        .to.equal("Please specify the valid title");
     } else {
       const res5 = await chai
         .request(expressApp)
         .put(`/todos/${todo._id}`)
         .send({
-          title: 'TODO',
+          title: "TODO",
         });
       expect(res5).to.have.status(404);
     }
