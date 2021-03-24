@@ -18,7 +18,7 @@ const respositoryContext = {
 
 const appContext: AppContext = {
   logger,
-  todoRepository: new Repositories.TodoRepository(respositoryContext),
+  accountRepository: new Repositories.AccountRepository(respositoryContext),
 };
 
 mongoStore

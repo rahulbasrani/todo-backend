@@ -1,4 +1,4 @@
-import bcryptjs from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import config from 'config';
 import jsonwebtoken from 'jsonwebtoken';
 
@@ -8,7 +8,7 @@ export const comparePassword = (
   inputPassword: string,
   accountPassword: string,
 ): Promise<boolean> => {
-  return bcryptjs.compare(inputPassword, accountPassword);
+  return bcrypt.compare(inputPassword, accountPassword);
 };
 
 export const createAccessToken = (payload: JwtPayload): string => {
@@ -20,5 +20,5 @@ export const decodeAccessToken = (token: string): JwtPayload => {
 };
 
 export const encryptPassword = (password: string): Promise<string> => {
-  return bcryptjs.hash(password, 12);
+  return bcrypt.hash(password, 12);
 };

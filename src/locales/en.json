@@ -11,8 +11,7 @@
     "INVALID_FIRSTNAME": "Please specify first name.",
     "INVALID_LASTNAME": "Please specify last name.",
     "PASSWORD_MISSING": "Please provide a password.",
-    "DUPLICATE_EMAIL": "The email you provided is already taken. Please provide a different one.",
-    "INVALID_TITLE": "Please specify the valid title"
+    "DUPLICATE_EMAIL": "The email you provided is already taken. Please provide a different one."
   },
   "MESSAGES": {
     "HEALTHCHECK": "OK"

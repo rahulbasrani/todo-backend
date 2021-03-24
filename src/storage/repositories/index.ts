@@ -1,3 +1,3 @@
-import { TodoRepository } from './todo-repository';
+import { AccountRepository } from './account-repository';
 
-export { TodoRepository };
+export { AccountRepository };
