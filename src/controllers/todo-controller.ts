@@ -141,7 +141,7 @@ export class TodoController extends BaseController {
     res: Response,
     next: NextFunction
   ) => {
-    let todoItems: LooseObject[] = [];
+    let todoItems: TodoItem[] = [];
     const todos = await this.appContext.todoRepository.getAll({
       isActive: true,
     });
