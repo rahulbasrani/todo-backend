@@ -1,3 +1,4 @@
+import todo from './todo';
 import config from 'config';
 import {
   connect,
@@ -10,7 +11,6 @@ import {
 import { TodoItem, BaseModel, ModelFactory } from '@models';
 import { IDataStore, QueryOptions, DeleteResult } from '@storage';
 import { LooseObject } from '@typings';
-import todo from './todo';
 
 export class MongoStore implements IDataStore {
   public connect(): Promise<Mongoose> {
@@ -27,7 +27,7 @@ export class MongoStore implements IDataStore {
   public getAll<T extends BaseModel>(
     data?: LooseObject,
     options?: QueryOptions,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<T[]> {
     let result = this.getModel<T>(modelFactory).find(data);
 
@@ -66,7 +66,7 @@ export class MongoStore implements IDataStore {
   public findById<T extends BaseModel>(
     id: string,
     options?: QueryOptions,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<T> {
     let result = this.getModel<T>(modelFactory).findById(id);
 
@@ -90,7 +90,7 @@ export class MongoStore implements IDataStore {
   public findOne<T extends BaseModel>(
     data?: LooseObject,
     options?: QueryOptions,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<T> {
     let result = this.getModel<T>(modelFactory).findOne(data);
 
@@ -113,7 +113,7 @@ export class MongoStore implements IDataStore {
 
   public save<T extends BaseModel>(
     entity: T,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<T> {
     return new Promise((resolve, reject) => {
       const newEntity = new (this.getModel<T>(modelFactory))(entity);
@@ -132,7 +132,7 @@ export class MongoStore implements IDataStore {
 
   public saveMany<T extends BaseModel>(
     entities: T[],
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<T[]> {
     return new Promise((resolve, reject) => {
       this.getModel<T>(modelFactory).insertMany(entities, (err, saveResult) => {
@@ -154,12 +154,12 @@ export class MongoStore implements IDataStore {
   public update<T extends BaseModel>(
     filter: LooseObject,
     dataToUpdate: LooseObject,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<T> {
     const result = this.getModel<T>(modelFactory).findOneAndUpdate(
       filter,
       dataToUpdate,
-      { new: true },
+      { new: true }
     );
 
     return result
@@ -176,14 +176,14 @@ export class MongoStore implements IDataStore {
 
   public count<T extends BaseModel>(
     data?: LooseObject,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<number> {
     return this.getModel<T>(modelFactory).countDocuments(data).exec();
   }
 
   public deleteMany<T extends BaseModel>(
     filter: LooseObject,
-    modelFactory?: ModelFactory<T>,
+    modelFactory?: ModelFactory<T>
   ): Promise<DeleteResult> {
     return this.getModel<T>(modelFactory)
       .deleteMany(filter)
@@ -194,7 +194,7 @@ export class MongoStore implements IDataStore {
   }
 
   private getModel<T extends BaseModel>(
-    modelFactory: ModelFactory<T>,
+    modelFactory: ModelFactory<T>
   ): MongoosModel<Document> {
     if (modelFactory.getType() === typeof TodoItem) {
       return todo;

@@ -29,6 +29,13 @@ export class TodoController extends BaseController {
     );
 
     this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
+
+    this.router.put(
+      `${this.basePath}/:id`,
+      createTodoValidator(),
+      this.updateTodo
+    );
+    this.router.delete(`${this.basePath}/:id`, this.deleteTodo);
   }
 
   private createTodo = async (
@@ -46,7 +53,6 @@ export class TodoController extends BaseController {
       );
       return next(valError);
     }
-
     const { title } = req.body;
     const todo = await this.appContext.todoRepository.save(
       new TodoItem({ title })
@@ -73,6 +79,37 @@ export class TodoController extends BaseController {
         res.__("DEFAULT_ERRORS.RESOURCE_NOT_FOUND")
       );
       return next(valError);
+    }
+  };
+
+  private updateTodo = async (
+    req: ExtendedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const failures: ValidationFailure[] = Validation.extractValidationErrors(
+      req
+    );
+    if (failures.length > 0) {
+      const valError = new Errors.ValidationError(
+        res.__("DEFAULT_ERRORS.VALIDATION_FAILED"),
+        failures
+      );
+      return next(valError);
+    }
+
+    const { title } = req.body;
+    const { id } = req.params;
+
+    const todo = await this.appContext.todoRepository.update(
+      { _id: id },
+      { title }
+    );
+
+    if (todo?._id) {
+      res.status(200).json(todo.serialize());
+    } else {
+      res.status(404).send();
     }
   };
 }
