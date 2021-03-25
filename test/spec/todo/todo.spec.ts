@@ -80,4 +80,11 @@ describe("DELETE /todos/:id", () => {
     const res3 = await chai.request(expressApp).delete(`/todos/""`);
     expect(res3).to.have.status(500);
   });
+  
+  describe("GET /todos", () => {
+    it("should get todos items list", async () => {
+      const res = await chai.request(expressApp).get("/todos");
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.an("array");
+    });
 });
